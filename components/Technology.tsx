@@ -2,6 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { Cpu, Film, Zap, Eye, Sparkles } from "lucide-react";
 
 export function Technology() {
@@ -12,6 +13,7 @@ export function Technology() {
       subtitle: "Three.js & R3F",
       description: "Real-time 3D experiences powered by Three.js and React Three Fiber with custom PBR shading.",
       icon: <Cpu className="w-6 h-6 text-[#D95D39]" />,
+      image: "/images/furniture/sofa.jpg",
     },
     {
       num: "02",
@@ -19,6 +21,7 @@ export function Technology() {
       subtitle: "GSAP & Framer Motion",
       description: "Scroll-driven storytelling with GSAP ScrollTrigger pinning and Framer Motion micro-interactions.",
       icon: <Film className="w-6 h-6 text-[#D95D39]" />,
+      image: "/images/furniture/coffee-table.jpg",
     },
     {
       num: "03",
@@ -26,6 +29,7 @@ export function Technology() {
       subtitle: "Dynamic Assets & Lerping",
       description: "Lazy-loaded assets and dynamic WebGL viewports to maintain consistent 60 FPS performance.",
       icon: <Zap className="w-6 h-6 text-[#D95D39]" />,
+      image: "/images/furniture/chair.jpg",
     },
     {
       num: "04",
@@ -33,6 +37,7 @@ export function Technology() {
       subtitle: "Reduced-Motion Native",
       description: "Reduced-motion support, keyboard focus targets, and responsive mobile-first interaction patterns.",
       icon: <Eye className="w-6 h-6 text-[#D95D39]" />,
+      image: "/images/furniture/plant.jpg",
     },
   ];
 
@@ -55,7 +60,7 @@ export function Technology() {
           </p>
         </div>
 
-        {/* 4 Cards Grid */}
+        {/* 4 Cards Grid with Real Furniture Photography Background Overlays */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {cards.map((card, idx) => (
             <motion.div
@@ -65,10 +70,19 @@ export function Technology() {
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.6, delay: idx * 0.1, ease: "easeOut" }}
               whileHover={{ y: -6 }}
-              className="group p-8 rounded-3xl bg-[#EAE7E0]/60 border border-[#111111]/10 hover:border-[#111111]/30 hover:bg-[#EAE7E0] transition-all duration-300 flex flex-col justify-between h-[340px]"
+              className="group relative p-8 rounded-3xl bg-[#EAE7E0]/60 border border-[#111111]/10 hover:border-[#111111]/30 hover:bg-[#EAE7E0] transition-all duration-300 flex flex-col justify-between h-[360px] overflow-hidden"
             >
-              <div className="flex items-center justify-between">
-                <span className="text-3xl font-mono font-light text-[#77736B]/50 group-hover:text-[#D95D39] transition-colors">
+              {/* Real Furniture Photograph Background Accent */}
+              <Image
+                src={card.image}
+                alt={`${card.title} Real Furniture Photo`}
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                className="object-cover opacity-10 group-hover:opacity-20 transition-opacity duration-300 pointer-events-none"
+              />
+
+              <div className="flex items-center justify-between z-10">
+                <span className="text-3xl font-mono font-light text-[#77736B]/60 group-hover:text-[#D95D39] transition-colors">
                   {card.num}
                 </span>
                 <div className="p-3 rounded-2xl bg-[#F4F2ED] border border-[#111111]/5 shadow-sm">
@@ -76,7 +90,7 @@ export function Technology() {
                 </div>
               </div>
 
-              <div>
+              <div className="z-10">
                 <div className="text-xs font-mono text-[#D95D39] uppercase tracking-wider mb-1">
                   {card.subtitle}
                 </div>
@@ -88,7 +102,7 @@ export function Technology() {
                 </p>
               </div>
 
-              <div className="pt-4 border-t border-[#111111]/5 flex items-center justify-between text-xs font-medium text-[#111111]/60">
+              <div className="pt-4 border-t border-[#111111]/10 flex items-center justify-between text-xs font-medium text-[#111111]/70 z-10">
                 <span>View Specs</span>
                 <span className="group-hover:translate-x-1 transition-transform">→</span>
               </div>

@@ -2,6 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import dynamic from "next/dynamic";
 import { MATERIALS_CONFIG, MaterialKey } from "@/config/materials";
 import { LightMode } from "@/config/lighting";
@@ -50,7 +51,7 @@ export function Materials({
           </p>
         </div>
 
-        {/* Top 3D Material Preview Viewport */}
+        {/* Top 3D Material Preview & Real Photography Showcase */}
         <div className="mb-14 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-[#EAE7E0]/60 p-6 sm:p-8 rounded-3xl border border-[#111111]/10">
           <div className="lg:col-span-4 flex flex-col gap-4">
             <span className="text-xs font-mono tracking-widest text-[#D95D39] uppercase">
@@ -69,6 +70,23 @@ export function Materials({
             <p className="text-sm text-[#77736B] font-light leading-relaxed">
               {activeMatConfig.description}
             </p>
+
+            {/* Real Photograph Thumbnail Badge */}
+            <div className="mt-2 flex items-center gap-3 p-3 rounded-2xl bg-white/70 border border-[#111111]/10 backdrop-blur-sm">
+              <div className="relative w-14 h-14 rounded-xl overflow-hidden shrink-0 shadow-sm">
+                <Image
+                  src={activeMatConfig.image}
+                  alt={`${activeMatConfig.name} Real Photography`}
+                  fill
+                  sizes="64px"
+                  className="object-cover"
+                />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-[11px] font-mono uppercase tracking-wider text-[#77736B]">Real Interior Sample</span>
+                <span className="text-xs font-bold text-[#111111]">{activeMatConfig.name} Finish</span>
+              </div>
+            </div>
           </div>
 
           <div className="lg:col-span-8 h-[340px] sm:h-[400px] w-full relative rounded-2xl border border-[#111111]/10 bg-[#F4F2ED] overflow-hidden shadow-lg">
@@ -103,6 +121,17 @@ export function Materials({
                     : "bg-[#EAE7E0]/60 text-[#111111] border-[#111111]/10 hover:border-[#111111]/30 hover:bg-[#EAE7E0]"
                 }`}
               >
+                {/* Background Real Photography Texture Overlay */}
+                <Image
+                  src={mat.image}
+                  alt={`${mat.name} Photographed Surface`}
+                  fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  className={`object-cover transition-opacity duration-300 pointer-events-none ${
+                    isSelected ? "opacity-20" : "opacity-10 group-hover:opacity-20"
+                  }`}
+                />
+
                 {/* Top Material Color Circle / Swatch */}
                 <div className="flex items-center justify-between z-10">
                   <div className="flex items-center gap-3">

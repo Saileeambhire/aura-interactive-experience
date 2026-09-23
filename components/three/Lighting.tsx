@@ -104,7 +104,6 @@ export function Lighting({ lightMode }: LightingProps) {
       <spotLight
         ref={windowRef}
         position={[-3.8, 2.5, 0]}
-        target-position={[0, 1, 0]}
         angle={Math.PI / 3}
         penumbra={0.8}
         intensity={config.windowLightIntensity}

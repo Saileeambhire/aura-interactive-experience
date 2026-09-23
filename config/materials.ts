@@ -14,6 +14,7 @@ export interface MaterialConfig {
   hex: string;
   accent: string;
   cardBg: string;
+  image: string;
 }
 
 export const MATERIALS_CONFIG: Record<MaterialKey, MaterialConfig> = {
@@ -30,6 +31,7 @@ export const MATERIALS_CONFIG: Record<MaterialKey, MaterialConfig> = {
     hex: "#C6A678",
     accent: "#8C6A3C",
     cardBg: "from-[#F5EFE6] to-[#E8DCC9]",
+    image: "/images/furniture/chair.jpg",
   },
   walnut: {
     id: "walnut",
@@ -44,6 +46,7 @@ export const MATERIALS_CONFIG: Record<MaterialKey, MaterialConfig> = {
     hex: "#4E3629",
     accent: "#2D1E16",
     cardBg: "from-[#3D2B20] to-[#251A13]",
+    image: "/images/furniture/floor-lamp.jpg",
   },
   marble: {
     id: "marble",
@@ -59,6 +62,7 @@ export const MATERIALS_CONFIG: Record<MaterialKey, MaterialConfig> = {
     hex: "#E5E5E0",
     accent: "#999990",
     cardBg: "from-[#F8F8F6] to-[#E3E3DE]",
+    image: "/images/furniture/coffee-table.jpg",
   },
   concrete: {
     id: "concrete",
@@ -73,6 +77,7 @@ export const MATERIALS_CONFIG: Record<MaterialKey, MaterialConfig> = {
     hex: "#7D7D7A",
     accent: "#4A4A48",
     cardBg: "from-[#90908C] to-[#6E6E6A]",
+    image: "/images/furniture/interior.jpg",
   },
   linen: {
     id: "linen",
@@ -86,6 +91,7 @@ export const MATERIALS_CONFIG: Record<MaterialKey, MaterialConfig> = {
     hex: "#D6C6B0",
     accent: "#94846F",
     cardBg: "from-[#F1E9DC] to-[#DECFA6]",
+    image: "/images/furniture/sofa.jpg",
   },
   leather: {
     id: "leather",
@@ -100,5 +106,6 @@ export const MATERIALS_CONFIG: Record<MaterialKey, MaterialConfig> = {
     hex: "#A35C35",
     accent: "#592C15",
     cardBg: "from-[#A66038] to-[#6E3B1F]",
+    image: "/images/furniture/chair.jpg",
   },
 };

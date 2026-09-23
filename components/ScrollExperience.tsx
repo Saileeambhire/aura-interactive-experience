@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import dynamic from "next/dynamic";
+import Image from "next/image";
 import { SCROLL_STEPS } from "@/config/room";
 import { MaterialKey } from "@/config/materials";
 import { LightMode } from "@/config/lighting";
@@ -33,6 +34,16 @@ export function ScrollExperience({ onStepChange }: ScrollExperienceProps) {
   const [scrollProgress, setScrollProgress] = useState(0);
 
   const activeStep = SCROLL_STEPS[activeStepIndex] || SCROLL_STEPS[0];
+
+  const stepPhotography = [
+    { title: "Architectural Interior", src: "/images/furniture/interior.jpg" },
+    { title: "Sofa & Lounge Form", src: "/images/furniture/sofa.jpg" },
+    { title: "Marble & Wood Surface", src: "/images/furniture/coffee-table.jpg" },
+    { title: "Volumetric Ambiance", src: "/images/furniture/floor-lamp.jpg" },
+    { title: "Accent Chair Detail", src: "/images/furniture/chair.jpg" },
+  ];
+
+  const currentPhoto = stepPhotography[activeStepIndex] || stepPhotography[0];
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -115,8 +126,25 @@ export function ScrollExperience({ onStepChange }: ScrollExperienceProps) {
               {activeStep.description}
             </p>
 
+            {/* Real Furniture Photo Badge */}
+            <div className="flex items-center gap-3 p-3 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md">
+              <div className="relative w-12 h-12 rounded-xl overflow-hidden shrink-0">
+                <Image
+                  src={currentPhoto.src}
+                  alt={currentPhoto.title}
+                  fill
+                  sizes="48px"
+                  className="object-cover"
+                />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-[10px] font-mono uppercase text-[#D95D39] tracking-wider">Real Photo Reference</span>
+                <span className="text-xs font-semibold text-[#F4F2ED]">{currentPhoto.title}</span>
+              </div>
+            </div>
+
             {/* Step Navigation Dots */}
-            <div className="flex items-center gap-2 pt-4">
+            <div className="flex items-center gap-2 pt-2">
               {SCROLL_STEPS.map((s, idx) => (
                 <button
                   key={s.step}
@@ -124,8 +152,9 @@ export function ScrollExperience({ onStepChange }: ScrollExperienceProps) {
                     setActiveStepIndex(idx);
                     if (onStepChange) onStepChange(s.step, s.defaultMaterial, s.defaultLighting);
                   }}
+                  type="button"
                   aria-label={`Jump to Step ${s.step}`}
-                  className={`h-1.5 rounded-full transition-all duration-300 ${
+                  className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
                     activeStepIndex === idx
                       ? "w-8 bg-[#D95D39]"
                       : "w-2 bg-[#F4F2ED]/20 hover:bg-[#F4F2ED]/40"
