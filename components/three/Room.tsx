@@ -2,56 +2,89 @@
 
 import React, { useMemo } from "react";
 import * as THREE from "three";
+import { LightMode } from "@/config/lighting";
 
 interface RoomProps {
   floorMaterialColor?: string;
   wallColor?: string;
+  lightMode?: LightMode;
 }
 
-export function Room({ floorMaterialColor = "#DDD7CD", wallColor = "#F0ECE1" }: RoomProps) {
+export function Room({
+  floorMaterialColor,
+  wallColor,
+  lightMode = "day",
+}: RoomProps) {
+  // Determine dynamic architectural wall & floor tones based on light mode
+  const effectiveWallColor = useMemo(() => {
+    if (wallColor) return wallColor;
+    switch (lightMode) {
+      case "sunset":
+        return "#4D2D22";
+      case "night":
+        return "#1B2333";
+      case "day":
+      default:
+        return "#F0ECE1";
+    }
+  }, [wallColor, lightMode]);
+
+  const effectiveFloorColor = useMemo(() => {
+    if (floorMaterialColor) return floorMaterialColor;
+    switch (lightMode) {
+      case "sunset":
+        return "#3B2016";
+      case "night":
+        return "#121824";
+      case "day":
+      default:
+        return "#DDD7CD";
+    }
+  }, [floorMaterialColor, lightMode]);
+
   const floorMat = useMemo(() => {
     return new THREE.MeshStandardMaterial({
-      color: new THREE.Color(floorMaterialColor),
-      roughness: 0.35,
+      color: new THREE.Color(effectiveFloorColor),
+      roughness: lightMode === "night" ? 0.25 : 0.35,
       metalness: 0.05,
     });
-  }, [floorMaterialColor]);
+  }, [effectiveFloorColor, lightMode]);
 
   const wallMat = useMemo(() => {
     return new THREE.MeshStandardMaterial({
-      color: new THREE.Color(wallColor),
+      color: new THREE.Color(effectiveWallColor),
       roughness: 0.85,
       metalness: 0.0,
       side: THREE.DoubleSide,
     });
-  }, [wallColor]);
+  }, [effectiveWallColor]);
 
   const windowFrameMat = useMemo(() => {
     return new THREE.MeshStandardMaterial({
-      color: new THREE.Color("#1A1A1A"),
+      color: new THREE.Color(lightMode === "night" ? "#0F172A" : "#1A1A1A"),
       roughness: 0.3,
       metalness: 0.7,
     });
-  }, []);
+  }, [lightMode]);
 
   const glassMat = useMemo(() => {
     return new THREE.MeshPhysicalMaterial({
-      color: new THREE.Color("#E0F2FE"),
+      color: new THREE.Color(lightMode === "night" ? "#38588A" : lightMode === "sunset" ? "#FF8C42" : "#E0F2FE"),
       transparent: true,
-      opacity: 0.25,
+      opacity: lightMode === "night" ? 0.45 : 0.25,
       roughness: 0.1,
       metalness: 0.1,
       transmission: 0.9,
       ior: 1.5,
     });
-  }, []);
+  }, [lightMode]);
 
   const skirtingMat = useMemo(() => {
     return new THREE.MeshStandardMaterial({
-      color: new THREE.Color("#D5CFBF"),
+      color: new THREE.Color(lightMode === "night" ? "#1E293B" : lightMode === "sunset" ? "#3D241A" : "#D5CFBF"),
       roughness: 0.6,
     });
-  }, []);
+  }, [lightMode]);
 
   return (
     <group name="room-architecture">
@@ -64,7 +97,7 @@ export function Room({ floorMaterialColor = "#DDD7CD", wallColor = "#F0ECE1" }: 
       {[-2, -1, 0, 1, 2].map((x, i) => (
         <mesh key={`plank-${i}`} position={[x, 0.001, 0]} rotation={[-Math.PI / 2, 0, 0]}>
           <planeGeometry args={[0.015, 6.8]} />
-          <meshBasicMaterial color="#BBB5A7" transparent opacity={0.3} />
+          <meshBasicMaterial color={lightMode === "night" ? "#2A364F" : "#BBB5A7"} transparent opacity={0.3} />
         </mesh>
       ))}
 
@@ -114,7 +147,7 @@ export function Room({ floorMaterialColor = "#DDD7CD", wallColor = "#F0ECE1" }: 
       {/* Soft Contact Shadow Receiver Disc under furniture center */}
       <mesh position={[0, 0.002, 0]} rotation={[-Math.PI / 2, 0, 0]}>
         <ringGeometry args={[0, 2.8, 32]} />
-        <meshBasicMaterial color="#000000" transparent opacity={0.12} />
+        <meshBasicMaterial color="#000000" transparent opacity={lightMode === "night" ? 0.35 : 0.12} />
       </mesh>
     </group>
   );

@@ -37,12 +37,14 @@ export default function Home() {
       <Materials
         activeMaterial={materialKey}
         onSelectMaterial={(mat) => setMaterialKey(mat)}
+        activeLightMode={lightMode}
       />
 
       {/* 5. Lighting Section */}
       <Lighting
         activeLightMode={lightMode}
         onSelectLightMode={(mode) => setLightMode(mode)}
+        activeMaterial={materialKey}
       />
 
       {/* 6. Technology Section */}

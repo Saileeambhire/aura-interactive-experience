@@ -31,7 +31,7 @@ export function SceneContent({
     <>
       <CameraController currentStep={currentStep} scrollProgress={scrollProgress} />
       <Lighting lightMode={lightMode} />
-      <Room />
+      <Room lightMode={lightMode} />
       <Furniture
         materialKey={materialKey}
         lightMode={lightMode}

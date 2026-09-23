@@ -63,7 +63,8 @@ export function ScrollExperience({ onStepChange }: ScrollExperienceProps) {
 
           setActiveStepIndex(newStepIndex);
 
-          if (onStepChange) {
+          // Only propagate global step changes when actively scrolling within the pinned container
+          if (onStepChange && self.isActive) {
             const stepConf = SCROLL_STEPS[newStepIndex];
             onStepChange(stepConf.step, stepConf.defaultMaterial, stepConf.defaultLighting);
           }

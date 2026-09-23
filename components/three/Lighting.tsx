@@ -15,10 +15,10 @@ export function Lighting({ lightMode }: LightingProps) {
   const sunRef = useRef<THREE.DirectionalLight>(null);
   const ambientRef = useRef<THREE.AmbientLight>(null);
   const fillRef = useRef<THREE.DirectionalLight>(null);
-  const windowRef = useRef<THREE.RectAreaLight | THREE.SpotLight>(null);
+  const windowRef = useRef<THREE.SpotLight>(null);
 
   // Smooth lerp lighting properties on each frame
-  useFrame((_, delta) => {
+  useFrame((state, delta) => {
     const lerpFactor = Math.min(1, delta * 4); // smooth transition over ~0.25s
 
     if (sunRef.current) {
@@ -56,6 +56,12 @@ export function Lighting({ lightMode }: LightingProps) {
         lerpFactor
       );
       windowRef.current.color.lerp(new THREE.Color(config.windowLightColor), lerpFactor);
+    }
+
+    if (state.scene.fog && state.scene.fog instanceof THREE.Fog) {
+      state.scene.fog.color.lerp(new THREE.Color(config.fogColor), lerpFactor);
+      state.scene.fog.near = THREE.MathUtils.lerp(state.scene.fog.near, config.fogNear, lerpFactor);
+      state.scene.fog.far = THREE.MathUtils.lerp(state.scene.fog.far, config.fogFar, lerpFactor);
     }
   });
 
@@ -96,7 +102,7 @@ export function Lighting({ lightMode }: LightingProps) {
 
       {/* Window Sky Glow Spot Light */}
       <spotLight
-        ref={windowRef as React.RefObject<THREE.SpotLight>}
+        ref={windowRef}
         position={[-3.8, 2.5, 0]}
         target-position={[0, 1, 0]}
         angle={Math.PI / 3}
